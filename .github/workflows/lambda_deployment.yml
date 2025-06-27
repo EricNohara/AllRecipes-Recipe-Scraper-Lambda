@@ -11,6 +11,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Install test dependencies (if needed)
+      - name: Install test dependencies
+        run: |
+          pip install -r lambda_get_links/requirements.txt
+          pip install -r lambda_get_recipes/requirements.txt
+
+      # Run unit tests for lambda_get_links
+      - name: Run unit tests for get_links
+        run: |
+          cd lambda_get_links
+          python -m unittest discover
+
+      # Run unit tests for lambda_get_recipes
+      # - name: Run unit tests for get_recipes
+      #   run: |
+      #     cd ../lambda_get_recipes
+      #     python -m unittest discover
+
       # deploy lambda_get_links
       - name: Install dependencies for get_links
         run: |
