@@ -37,10 +37,3 @@ def find_recipe_links(dish_name, url=None, max_pages=3, page=1, collected=None):
     if next_link and next_link.get("href"):
         return find_recipe_links(dish_name, next_link.get("href"), max_pages, page + 1, collected)
     return collected
-
-if __name__ == "__main__":
-    dish = input("Enter the name of a dish: ")
-    hrefs = find_recipe_links(dish, max_pages=10)
-    
-    for i in range(len(hrefs)):
-        print(f"Recipe {i}: {hrefs[i]}")
