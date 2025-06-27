@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     max_pages = int(params.get("max_pages", 10))
 
     # get list of links
-    links = find_recipe_links(dish, max_pages)
+    links = find_recipe_links(dish, max_pages=max_pages)
 
     # response
     return {
