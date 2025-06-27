@@ -8,7 +8,7 @@ def get_recipe_links_from_http(dish, max_pages):
     params = {"dish": dish, "max_pages": max_pages}
     response = requests.get(GET_LINKS_URL, params=params)
     response.raise_for_status()
-    return json.loads(response.json()["body"])
+    return response.json()["body"]
 
 def lambda_handler(event, context):
     try:
