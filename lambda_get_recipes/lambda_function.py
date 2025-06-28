@@ -24,15 +24,7 @@ async def main(dish, max_pages):
 
 def lambda_handler(event, context):
     try:
-        if isinstance(event, str):
-            event = json.loads(event)
-
-        raw_params = event.get("queryStringParameters") or {}
-        if isinstance(raw_params, str):
-            params = json.loads(raw_params)
-        else:
-            params = raw_params
-
+        params = event.get("queryStringParameters") or {}
         dish = params.get("dish", "")
         max_pages = int(params.get("max_pages", 10))
 
