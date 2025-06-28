@@ -13,15 +13,15 @@ RECIPE_STEPS_TEXT = ".mntl-sc-block-html"
 
 headers = {"User-Agent": "Mozilla/5.0"}
 
-async def fetch(session, url):
-    async with session.get(url, ssl=False) as response:
+async def fetch(session, link):
+    async with session.get(link, ssl=False) as response:
         return await response.text()
 
-async def find_recipe_data(url, session):
-    if not url:
+async def find_recipe_data(session, link):
+    if not link:
         return None
 
-    html = await fetch(session, url)
+    html = await fetch(session, link)
     soup = BeautifulSoup(html, "html.parser")
 
     # Parse rating
