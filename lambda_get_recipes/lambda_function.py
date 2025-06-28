@@ -19,12 +19,12 @@ def lambda_handler(event, context):
         # get the links from the other function
         links = get_recipe_links_from_http(dish, max_pages)
 
-        recipes = [find_recipe_data(link) for link in links]
+        # recipes = [find_recipe_data(link) for link in links]
 
         return {
             "statusCode": 200,
             "headers": { "Content-Type": "application/json" },
-            "body": json.dumps(recipes)
+            "body": json.dumps(links)
         }
     except Exception as e:
         return {
