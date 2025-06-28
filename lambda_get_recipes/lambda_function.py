@@ -8,7 +8,7 @@ def get_recipe_links_from_http(dish, max_pages):
     params = {"dish": dish, "max_pages": max_pages}
     response = requests.get(GET_LINKS_URL, params=params)
     response.raise_for_status()
-    return response.json()["body"]
+    return response.json()
 
 def lambda_handler(event, context):
     try:
@@ -19,12 +19,12 @@ def lambda_handler(event, context):
         # get the links from the other function
         links = get_recipe_links_from_http(dish, max_pages)
 
-        # recipes = [find_recipe_data(link) for link in links]
+        recipes = [find_recipe_data(link) for link in links]
 
         return {
             "statusCode": 200,
             "headers": { "Content-Type": "application/json" },
-            "body": json.dumps(links)
+            "body": json.dumps(recipes)
         }
     except Exception as e:
         return {
