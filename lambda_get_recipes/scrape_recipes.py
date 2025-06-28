@@ -1,6 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 RATING_DIV_ID = "mm-recipes-review-bar__rating_1-0"
@@ -11,21 +11,18 @@ INGREDIENTS_LIST_CLASS = ".mm-recipes-structured-ingredients__list"
 RECIPE_STEPS_ID = "mm-recipes-steps_1-0"
 RECIPE_STEPS_TEXT = ".mntl-sc-block-html"
 
-def find_recipe_data(url):
+headers = {"User-Agent": "Mozilla/5.0"}
+
+async def fetch(session, url):
+    async with session.get(url, ssl=False) as response:
+        return await response.text()
+
+async def find_recipe_data(url, session):
     if not url:
         return None
 
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers, verify=False)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    # Remove all script and style elements
-    for script_or_style in soup(['script', 'style']):
-        script_or_style.decompose()
-
-    # Remove the <head> section
-    if soup.head:
-        soup.head.decompose()
+    html = await fetch(session, url)
+    soup = BeautifulSoup(html, "lxml")
 
     # Parse rating
     rating_div = soup.find(id=RATING_DIV_ID)
