@@ -27,7 +27,12 @@ def lambda_handler(event, context):
         if isinstance(event, str):
             event = json.loads(event)
 
-        params = event.get("queryStringParameters") or {}
+        raw_params = event.get("queryStringParameters") or {}
+        if isinstance(raw_params, str):
+            params = json.loads(raw_params)
+        else:
+            params = raw_params
+
         dish = params.get("dish", "")
         max_pages = int(params.get("max_pages", 10))
 
