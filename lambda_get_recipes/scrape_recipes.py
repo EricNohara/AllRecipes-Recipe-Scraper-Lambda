@@ -22,7 +22,7 @@ async def find_recipe_data(url, session):
         return None
 
     html = await fetch(session, url)
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
 
     # Parse rating
     rating_div = soup.find(id=RATING_DIV_ID)

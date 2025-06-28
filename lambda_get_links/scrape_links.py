@@ -15,7 +15,7 @@ def find_recipe_links(dish_name, url=None, max_pages=3, page=1, collected=None):
         url = f"https://www.allrecipes.com/search?q={query}"
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers, verify=False)
-    soup = BeautifulSoup(response.text, "lxml")
+    soup = BeautifulSoup(response.text, "html.parser")
 
     # get the important links
     for link in soup.select(".mntl-card-list-card--extendable"):
