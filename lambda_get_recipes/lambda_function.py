@@ -1,7 +1,7 @@
 import json
 import asyncio
 import aiohttp
-from scrape_recipes import find_recipe_data_async  # async version of your function
+from scrape_recipes import find_recipe_data
 
 GET_LINKS_URL = "https://ii6hupokihiu6p37z4ogqw2qha0rspel.lambda-url.us-east-2.on.aws/"
 
@@ -13,7 +13,7 @@ async def get_recipe_links_from_http_async(session, dish, max_pages):
 
 async def fetch_recipe(session, link):
     # call your async recipe data fetcher here
-    return await find_recipe_data_async(session, link)
+    return await find_recipe_data(session, link)
 
 async def main(dish, max_pages):
     async with aiohttp.ClientSession() as session:
