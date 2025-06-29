@@ -22,7 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
           pip install pytest
 
       - name: Run unit tests
@@ -44,7 +43,7 @@ jobs:
 
       - name: Install dependencies for packaging
         run: |
-          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
+          pip install -r lambda_get_recipes/app/requirements.txt -t lambda_get_recipes/app/
 
       - name: Zip get_recipes
         run: |
