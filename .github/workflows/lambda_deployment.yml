@@ -51,13 +51,16 @@ jobs:
           cd lambda_get_recipes/app
           zip -r ../../get_recipes.zip .
 
+      - name: List contents of get_recipes.zip
+        run: unzip -l get_recipes.zip
+
       - name: Deploy get_recipes Lambda
         uses: imehedi/actions-awscli-v2@latest
         with:
-          args: |
-            lambda update-function-code \
-              --function-name arn:aws:lambda:us-east-2:044445073404:function:AllrecipesRecipeDataScraper \
-              --zip-file fileb://get_recipes.zip \
+          args: >
+            lambda update-function-code
+            --function-name arn:aws:lambda:us-east-2:044445073404:function:AllrecipesRecipeDataScraper
+            --zip-file fileb://get_recipes.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
