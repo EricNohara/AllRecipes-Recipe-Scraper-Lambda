@@ -8,20 +8,21 @@ async def fetch_recipe(session, link):
     # call your async recipe data fetcher here
     return await find_recipe_data(session, link)
 
-async def main(dish, max_pages):
+async def main(dish, max_links):
     async with aiohttp.ClientSession() as session:
-        links = find_recipe_links(dish, max_pages)
-        tasks = [fetch_recipe(session, link) for link in links]
-        recipes = await asyncio.gather(*tasks)
-        return recipes
+        links = find_recipe_links(dish_name=dish, max_links=max_links)
+        # tasks = [fetch_recipe(session, link) for link in links]
+        # recipes = await asyncio.gather(*tasks)
+        # return recipes
+        return links
 
 def lambda_handler(event, context):
     try:
         params = event.get("queryStringParameters") or {}
         dish = params.get("dish", "")
-        max_pages = int(params.get("max_pages", 10))
+        max_links = int(params.get("max_links", 20))
 
-        recipes = asyncio.run(main(dish, max_pages))
+        recipes = asyncio.run(main(dish, max_links))
 
         return {
             "statusCode": 200,

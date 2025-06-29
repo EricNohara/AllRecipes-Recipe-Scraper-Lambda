@@ -3,12 +3,13 @@ from bs4 import BeautifulSoup
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def find_recipe_links(dish_name, url=None, max_pages=3, page=1, collected=None):
+def find_recipe_links(dish_name, url=None, max_links=20, collected=None):
     # base cases
     if collected is None:
         collected = set()
-    if page > max_pages:
-        return collected
+
+    if len(collected) >= max_links:
+        return list(collected)[:max_links]
 
     query = dish_name.replace(' ', '+')
     if not url:
@@ -21,10 +22,11 @@ def find_recipe_links(dish_name, url=None, max_pages=3, page=1, collected=None):
     for link in soup.select(".mntl-card-list-card--extendable"):
         collected.add(link.get("href"))
 
-    el = soup.select_one(".mntl-pagination__next")
+    next_el = soup.select_one(".mntl-pagination__next")
 
-    if (el):
-        href = el.find_next("a").get("href")
-        return find_recipe_links(dish_name, href, max_pages, page + 1, collected)
+    if next_el:
+        href = next_el.find_next("a").get("href")
+        if (href):
+            return find_recipe_links(dish_name, href, max_links, collected)
         
-    return list(collected)
+    return list(collected)[:max_links]
