@@ -1,8 +1,8 @@
 import json
 import asyncio
 import aiohttp
-from scrape_recipes import find_recipe_data
-from scrape_links import find_recipe_links
+from app.services.find_recipe_data import find_recipe_data
+from app.services.find_recipe_links import find_recipe_links
 
 async def fetch_recipe(session, link):
     return await find_recipe_data(session, link)

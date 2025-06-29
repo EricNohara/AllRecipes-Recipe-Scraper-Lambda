@@ -11,51 +11,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Install test dependencies (if needed)
-      # - name: Install test dependencies
-      #   run: |
-      #     pip install -r lambda_get_links/requirements.txt
-      #     pip install -r lambda_get_recipes/requirements.txt
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
 
-      # Run unit tests for lambda_get_links
-      # - name: Run unit tests for get_links
-      #   run: |
-      #     cd lambda_get_links
-      #     python -m unittest discover
-
-      # Run unit tests for lambda_get_recipes
-      # - name: Run unit tests for get_recipes
-      #   run: |
-      #     cd ../lambda_get_recipes
-      #     python -m unittest discover
-
-      # deploy lambda_get_links
-      # - name: Install dependencies for get_links
-      #   run: |
-      #     pip install -r lambda_get_links/requirements.txt -t lambda_get_links/
-      # - name: Zip get_links
-      #   run: |
-      #     cd lambda_get_links
-      #     zip -r ../get_links.zip .
-      # - name: Deploy get_links Lambda
-      #   uses: imehedi/actions-awscli-v2@latest
-      #   with:
-      #     args: "lambda update-function-code \
-      #       --function-name arn:aws:lambda:us-east-2:044445073404:function:AllrecipesRecipeLinkScraper \
-      #       --zip-file fileb://get_links.zip"
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_DEFAULT_REGION: "us-east-2"
-
-      # deploy lambda_get_recipes
+      # Install test dependencies
       - name: Install dependencies for get_recipes
         run: |
           pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
+          pip install pytest
+
+      # Run unit tests for lambda_get_recipes
+      - name: Run unit tests for get_recipes
+        run: |
+          # Set PYTHONPATH to lambda_get_recipes so tests can find the modules
+          PYTHONPATH=lambda_get_recipes pytest lambda_get_recipes/tests/
+
+      # Zip and deploy Lambda function
       - name: Zip get_recipes
         run: |
           cd lambda_get_recipes
-          zip -r ../get_recipes.zip .
+          zip -r ../get_recipes.zip . -x "tests/*" "*.pyc" "__pycache__/*"
+
       - name: Deploy get_recipes Lambda
         uses: imehedi/actions-awscli-v2@latest
         with:
