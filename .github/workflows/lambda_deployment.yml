@@ -48,8 +48,8 @@ jobs:
 
       - name: Zip get_recipes
         run: |
-          cd lambda_get_recipes
-          zip -r ../get_recipes.zip . -x "tests/*" "*.pyc" "__pycache__/*"
+          cd lambda_get_recipes/app
+          zip -r ../../get_recipes.zip .
 
       - name: Deploy get_recipes Lambda
         uses: imehedi/actions-awscli-v2@latest
