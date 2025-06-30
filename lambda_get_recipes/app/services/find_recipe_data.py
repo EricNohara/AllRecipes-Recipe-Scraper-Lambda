@@ -10,6 +10,7 @@ RECIPE_DETAILS_VALUE = '.mm-recipes-details__value'
 INGREDIENTS_LIST_CLASS = ".mm-recipes-structured-ingredients__list"
 RECIPE_STEPS_ID = "mm-recipes-steps_1-0"
 RECIPE_STEPS_TEXT = ".mntl-sc-block-html"
+RECIPE_NAME_CLASS=".article-heading"
 
 headers = {"User-Agent": "Mozilla/5.0"}
 
@@ -23,6 +24,10 @@ async def find_recipe_data(session, link):
 
     html = await fetch(session, link)
     soup = BeautifulSoup(html, "html.parser")
+
+    # Parse name
+    name_header = soup.select_one(RECIPE_NAME_CLASS)
+    name = name_header.text if name_header else None
 
     # Parse rating
     rating_div = soup.find(id=RATING_DIV_ID)
@@ -61,6 +66,7 @@ async def find_recipe_data(session, link):
 
     # return the recipe
     return {
+        "name": name,
         "total_time": total_time,
         "servings": servings,
         "rating": rating,
