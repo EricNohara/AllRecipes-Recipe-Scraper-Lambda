@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.services.find_recipe_links import find_recipe_links
+from lambda_get_recipes.app.services.find_recipe_links import find_recipe_links
 
 class TestFindRecipeLinks(unittest.TestCase):
 
-    @patch('app.services.find_recipe_links.requests.get')
+    @patch('lambda_get_recipes.app.services.find_recipe_links.requests.get')
     def test_collects_correct_number_of_links(self, mock_get):
         html = """
         <html>
@@ -23,7 +23,7 @@ class TestFindRecipeLinks(unittest.TestCase):
         self.assertEqual(len(links), 2)
         self.assertTrue(all(link.startswith("https://example.com/recipe") for link in links))
 
-    @patch('app.services.find_recipe_links.requests.get')
+    @patch('lambda_get_recipes.app.services.find_recipe_links.requests.get')
     def test_returns_empty_if_no_links(self, mock_get):
         html = "<html><body>No results</body></html>"
         mock_response = MagicMock()
@@ -33,7 +33,7 @@ class TestFindRecipeLinks(unittest.TestCase):
         links = find_recipe_links("nonexistentdish", max_links=5)
         self.assertEqual(links, [])
 
-    @patch('app.services.find_recipe_links.requests.get')
+    @patch('lambda_get_recipes.app.services.find_recipe_links.requests.get')
     def test_stops_recursing_when_max_links_reached(self, mock_get):
         def generate_html_with_links(n):
             return "<html><body>" + "".join(
@@ -52,7 +52,7 @@ class TestFindRecipeLinks(unittest.TestCase):
         links = find_recipe_links("chicken", max_links=5)
         self.assertEqual(len(links), 5)
 
-    @patch('app.services.find_recipe_links.requests.get')
+    @patch('lambda_get_recipes.app.services.find_recipe_links.requests.get')
     def test_duplicates_are_ignored(self, mock_get):
         html = """
         <html>

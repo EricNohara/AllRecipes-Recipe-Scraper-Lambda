@@ -1,6 +1,8 @@
-import requests
 from bs4 import BeautifulSoup
+from lambda_get_recipes.app.services.link_parsers.allrecipes import parse_links, get_next_page_url
+import requests
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def find_recipe_links(dish_name, url=None, max_links=20, collected=None):
@@ -19,14 +21,11 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None):
     soup = BeautifulSoup(response.text, "html.parser")
 
     # get the important links
-    for link in soup.select(".mntl-card-list-card--extendable"):
-        collected.add(link.get("href"))
+    links = parse_links(soup)
+    collected.update(links)
 
-    next_el = soup.select_one(".mntl-pagination__next")
-
-    if next_el:
-        href = next_el.find_next("a").get("href")
-        if (href):
-            return find_recipe_links(dish_name, href, max_links, collected)
+    next_url = get_next_page_url(soup)
+    if next_url:
+        return find_recipe_links(dish_name, next_url, max_links, collected)
         
     return list(collected)[:max_links]
