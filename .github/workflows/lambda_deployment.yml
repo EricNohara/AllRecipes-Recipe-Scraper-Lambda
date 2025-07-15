@@ -44,9 +44,10 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install dependencies for packaging
+      - name: Build Lambda dependencies (Amazon Linux)
         run: |
-          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
+          docker run --rm -v "$PWD/lambda_get_recipes":/var/task lambci/lambda:build-python3.12 \
+            pip install -r requirements.txt -t /var/task
 
       - name: Zip get_recipes
         run: |
