@@ -28,7 +28,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          export PYTHONPATH=$(pwd)
+          export PYTHONPATH=$(pwd)/lambda_get_recipes/app
           pytest lambda_get_recipes/tests/
 
   deploy:
