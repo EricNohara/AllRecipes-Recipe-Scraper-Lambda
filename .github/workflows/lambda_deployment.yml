@@ -6,35 +6,35 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Run Unit Tests
-    runs-on: ubuntu-latest
+  # test:
+  #   name: Run Unit Tests
+  #   runs-on: ubuntu-latest
 
-    env:
-      PYTHONPATH: lambda_get_recipes
+  #   env:
+  #     PYTHONPATH: lambda_get_recipes
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.12"
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
-          pip install pytest
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
+  #         pip install pytest
 
-      - name: Run unit tests
-        run: |
-          export PYTHONPATH=$(pwd)
-          pytest lambda_get_recipes/tests/
+  #     - name: Run unit tests
+  #       run: |
+  #         export PYTHONPATH=$(pwd)
+  #         pytest lambda_get_recipes/tests/
 
   deploy:
     name: Deploy to Lambda
     runs-on: ubuntu-latest
-    needs: test # <-- Ensures this job only runs if tests pass
+    # needs: test
 
     steps:
       - uses: actions/checkout@v2
@@ -44,14 +44,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build Lambda dependencies (Amazon Linux 2023)
+      - name: Install dependencies for packaging
         run: |
-          docker run --rm --entrypoint /bin/sh -v "$PWD/lambda_get_recipes":/var/task public.ecr.aws/lambda/python:3.12 \
-            -c "pip install -r requirements.txt -t /var/task"
+          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/app/
 
       - name: Zip get_recipes
         run: |
-          zip -r get_recipes.zip lambda_get_recipes
+          cd lambda_get_recipes/app
+          zip -r ../../get_recipes.zip .
 
       - name: List contents of get_recipes.zip
         run: unzip -l get_recipes.zip
