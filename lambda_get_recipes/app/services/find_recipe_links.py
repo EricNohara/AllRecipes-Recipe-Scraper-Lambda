@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from link_parsers.allrecipes import parse_links, get_next_page_url
+from lambda_get_recipes.app.services.link_parsers.allrecipes import parse_links, get_next_page_url
 import requests
 import urllib3
 

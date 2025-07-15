@@ -28,7 +28,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          export PYTHONPATH=$(pwd)/lambda_get_recipes/app
+          export PYTHONPATH=$(pwd)
           pytest lambda_get_recipes/tests/
 
   deploy:
@@ -50,8 +50,7 @@ jobs:
 
       - name: Zip get_recipes
         run: |
-          cd lambda_get_recipes/app
-          zip -r ../../get_recipes.zip .
+          zip -r get_recipes.zip lambda_get_recipes
 
       - name: List contents of get_recipes.zip
         run: unzip -l get_recipes.zip
