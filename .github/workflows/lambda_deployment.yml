@@ -46,8 +46,8 @@ jobs:
 
       - name: Build Lambda dependencies (Amazon Linux 2023)
         run: |
-          docker run --rm -v "$PWD/lambda_get_recipes":/var/task public.ecr.aws/lambda/python:3.12 \
-            /bin/sh -c "pip install -r requirements.txt -t /var/task"
+          docker run --rm --entrypoint /bin/sh -v "$PWD/lambda_get_recipes":/var/task public.ecr.aws/lambda/python:3.12 \
+            -c "pip install -r requirements.txt -t /var/task"
 
       - name: Zip get_recipes
         run: |
