@@ -46,7 +46,7 @@ jobs:
 
       - name: Install dependencies for packaging
         run: |
-          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/app/
+          pip install -r lambda_get_recipes/requirements.txt -t lambda_get_recipes/
 
       - name: Zip get_recipes
         run: |
