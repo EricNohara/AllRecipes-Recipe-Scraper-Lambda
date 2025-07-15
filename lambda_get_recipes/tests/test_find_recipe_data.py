@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import AsyncMock, patch, MagicMock
 import asyncio
 
-from lambda_get_recipes.app.services.find_recipe_data import find_recipe_data
+from app.services.find_recipe_data import find_recipe_data
 
 class TestFindRecipeData(unittest.TestCase):
 
@@ -31,7 +31,7 @@ class TestFindRecipeData(unittest.TestCase):
         </html>
         """
 
-    @patch("lambda_get_recipes.app.services.find_recipe_data.fetch", new_callable=AsyncMock)
+    @patch("app.services.find_recipe_data.fetch", new_callable=AsyncMock)
     def test_full_recipe_parsing(self, mock_fetch):
         # Arrange
         mock_fetch.return_value = self.sample_html
@@ -49,7 +49,7 @@ class TestFindRecipeData(unittest.TestCase):
 
         asyncio.run(run_test())
 
-    @patch("lambda_get_recipes.app.services.find_recipe_data.fetch", new_callable=AsyncMock)
+    @patch("app.services.find_recipe_data.fetch", new_callable=AsyncMock)
     def test_missing_elements(self, mock_fetch):
         minimal_html = "<html><body></body></html>"
         mock_fetch.return_value = minimal_html
@@ -66,7 +66,7 @@ class TestFindRecipeData(unittest.TestCase):
 
         asyncio.run(run_test())
 
-    @patch("lambda_get_recipes.app.services.find_recipe_data.fetch", new_callable=AsyncMock)
+    @patch("app.services.find_recipe_data.fetch", new_callable=AsyncMock)
     def test_no_link_returns_none(self, mock_fetch):
         async def run_test():
             session = MagicMock()
