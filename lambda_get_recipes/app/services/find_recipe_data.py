@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from data_parsers.allrecipes import parse_recipe_data
+from services.data_parsers.allrecipes import parse_recipe_data
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
