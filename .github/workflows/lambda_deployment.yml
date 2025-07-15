@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13"
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -42,12 +42,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13"
+          python-version: "3.12"
 
-      - name: Build Lambda dependencies (Amazon Linux)
+      - name: Build Lambda dependencies (Amazon Linux 2023)
         run: |
-          docker run --rm -v "$PWD/lambda_get_recipes":/var/task lambci/lambda:build-python3.12 \
-            pip install -r requirements.txt -t /var/task
+          docker run --rm -v "$PWD/lambda_get_recipes":/var/task public.ecr.aws/lambda/python:3.12 \
+            /bin/sh -c "pip install -r requirements.txt -t /var/task"
 
       - name: Zip get_recipes
         run: |
