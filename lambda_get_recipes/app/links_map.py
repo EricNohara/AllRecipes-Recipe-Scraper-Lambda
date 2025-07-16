@@ -1,5 +1,7 @@
 LINKS_MAP = {
-    "all-recipes": "https://www.allrecipes.com/search?q={query}"
+    "all-recipes": "https://www.allrecipes.com/search?q={query}",
+    "food-network": "https://www.foodnetwork.com/search/{query}-",
+    # "serious-eats": "https://www.seriouseats.com/search?q={query}"
 }
 
 def get_search_url(sitename, query):
