@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 from services.link_parsers.allrecipes import parse_links, get_next_page_url
+from links_map import get_search_url
 import requests
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def find_recipe_links(dish_name, url=None, max_links=20, collected=None):
+def find_recipe_links(dish_name, url=None, max_links=20, collected=None, sitename="all-recipes"):
     # base cases
     if collected is None:
         collected = set()
@@ -15,7 +16,7 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None):
 
     query = dish_name.replace(' ', '+')
     if not url:
-        url = f"https://www.allrecipes.com/search?q={query}"
+        url = get_search_url(sitename, query)
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers, verify=False)
     soup = BeautifulSoup(response.text, "html.parser")

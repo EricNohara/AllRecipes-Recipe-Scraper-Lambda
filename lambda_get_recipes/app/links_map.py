@@ -1,0 +1,9 @@
+LINKS_MAP = {
+    "all-recipes": "https://www.allrecipes.com/search?q={query}"
+}
+
+def get_search_url(sitename, query):
+    template = LINKS_MAP.get(sitename)
+    if not template:
+        raise ValueError(f"Unknown site: {sitename}")
+    return template.format(query=query)
