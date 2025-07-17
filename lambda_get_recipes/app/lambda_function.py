@@ -4,8 +4,8 @@ import aiohttp
 from services.find_recipe_data import find_recipe_data
 from services.find_recipe_links import find_recipe_links
 
-async def fetch_recipe(session, link):
-    return await find_recipe_data(session, link)
+async def fetch_recipe(session, link, sitename):
+    return await find_recipe_data(session, link, sitename)
 
 async def main(dish, max_links, sitename):
     async with aiohttp.ClientSession() as session:
