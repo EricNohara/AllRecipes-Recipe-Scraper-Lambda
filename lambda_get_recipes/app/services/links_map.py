@@ -4,8 +4,15 @@ LINKS_MAP = {
     # "serious-eats": "https://www.seriouseats.com/search?q={query}"
 }
 
+QUERY_FORMAT = {
+    "all-recipes": lambda q: q.replace(' ', '+'),
+    "food-network": lambda q: q.replace(' ', '-'),
+}
+
 def get_search_url(sitename, query):
     template = LINKS_MAP.get(sitename)
     if not template:
         raise ValueError(f"Unknown site: {sitename}")
-    return template.format(query=query)
+    formatter = QUERY_FORMAT.get(sitename, lambda q: q)
+    formatted_query = formatter(query)
+    return template.format(query=formatted_query)

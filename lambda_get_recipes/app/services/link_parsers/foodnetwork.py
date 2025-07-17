@@ -9,10 +9,14 @@ def parse_links(soup):
         if h3:
             a = h3.find("a", href=True)
             if a:
-                links.add(a["href"])
+                links.add(f"https:{a["href"]}")
     return list(links)
 
 def get_next_page_url(soup):
     next_el = soup.select_one(NEXT_LINK_BUTTON)
     href = next_el.get("href") if next_el else None
-    return href if href else None
+    if href:
+        if href.startswith("http"):
+            return href
+        return f"https:{href}"
+    return None
