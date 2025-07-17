@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from link_parsers import allrecipes, foodnetwork
-from links_map import get_search_url
+from services.link_parsers import allrecipes, foodnetwork
+from services.links_map import get_search_url
 import requests
 import urllib3
 
@@ -30,6 +30,9 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None, sitenam
     response = requests.get(url, headers=headers, verify=False)
     soup = BeautifulSoup(response.text, "html.parser")
 
+    print("Status code:", response.status_code)
+    print("First 500 chars:", response.text[:500])  
+
     # get the important links
     parser = PARSERS.get(sitename)
     if not parser:
@@ -39,8 +42,10 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None, sitenam
     collected.update(links)
 
     next_url = parser["get_next_page_url"](soup)
+    print(f"NEXT: {next_url}")
     if next_url:
         return find_recipe_links(dish_name, next_url, max_links, collected, sitename)
         
     return list(collected)[:max_links]
 
+# print(find_recipe_links(dish_name="pizza", max_links=10, sitename="food-network"))
