@@ -30,9 +30,6 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None, sitenam
     response = requests.get(url, headers=headers, verify=False)
     soup = BeautifulSoup(response.text, "html.parser")
 
-    print("Status code:", response.status_code)
-    print("First 500 chars:", response.text[:500])  
-
     # get the important links
     parser = PARSERS.get(sitename)
     if not parser:

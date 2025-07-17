@@ -3,6 +3,7 @@ import asyncio
 import aiohttp
 from services.find_recipe_data import find_recipe_data
 from services.find_recipe_links import find_recipe_links
+import requests
 
 async def fetch_recipe(session, link):
     return await find_recipe_data(session, link)
@@ -22,12 +23,18 @@ def lambda_handler(event, context):
         max_links = int(params.get("max_links", 20))
         sitename = params.get("sitename", "all-recipes")
 
-        recipes = asyncio.run(main(dish, max_links, sitename))
+        response = requests.get("https://www.simplyrecipes.com/")
+
+        print("Status code:", response.status_code)
+        print("First 500 chars:", response.text[:500])  
+        print(response)
+
+        # recipes = asyncio.run(main(dish, max_links, sitename))
 
         return {
             "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps(recipes)
+            # "headers": {"Content-Type": "application/json"},
+            # "body": json.dumps(recipes)
         }
     except Exception as e:
         return {
