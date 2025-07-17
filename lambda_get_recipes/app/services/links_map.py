@@ -1,12 +1,12 @@
 LINKS_MAP = {
     "all-recipes": "https://www.allrecipes.com/search?q={query}",
-    "food-network": "https://www.foodnetwork.com/search/{query}-",
+    "simply-recipes": "https://www.simplyrecipes.com/search?q={query}"
     # "serious-eats": "https://www.seriouseats.com/search?q={query}"
 }
 
 QUERY_FORMAT = {
     "all-recipes": lambda q: q.replace(' ', '+'),
-    "food-network": lambda q: q.replace(' ', '-'),
+    "simply-recipes": lambda q: q.replace(' ', '+'),
 }
 
 def get_search_url(sitename, query):
