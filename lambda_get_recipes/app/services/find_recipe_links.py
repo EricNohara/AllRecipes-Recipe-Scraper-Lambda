@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from link_parsers import allrecipes, simplyrecipes, seriouseats
-from links_map import get_search_url
+from services.link_parsers import allrecipes, simplyrecipes, seriouseats
+from services.links_map import get_search_url
 import requests
 import urllib3
 
