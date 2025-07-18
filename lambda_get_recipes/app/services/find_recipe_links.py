@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from services.link_parsers import allrecipes, simplyrecipes, seriouseats, nytcooking
+from services.link_parsers import allrecipes, simplyrecipes, seriouseats
 from services.links_map import get_search_url
 import requests
 import urllib3
@@ -18,10 +18,6 @@ PARSERS = {
     "serious-eats": {
         "parse_links": seriouseats.parse_links,
         "get_next_page_url": seriouseats.get_next_page_url 
-    },
-    "nyt-cooking": {
-        "parse_links": nytcooking.parse_links,
-        "get_next_page_url": nytcooking.get_next_page_url 
     }
 }
 
@@ -58,5 +54,3 @@ def find_recipe_links(dish_name, url=None, max_links=20, collected=None, sitenam
         return find_recipe_links(dish_name, next_url, max_links, collected, sitename)
             
     return list(collected)[:max_links]
-
-# print(len(find_recipe_links(dish_name="pizza", max_links=200, sitename="nyt-cooking")))

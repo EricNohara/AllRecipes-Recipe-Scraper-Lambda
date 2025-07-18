@@ -79,15 +79,3 @@ def parse_rating(soup):
 
 def process_text(text):
     return text.replace('\n', ' ').strip() if text else None
-
-# import requests
-# from bs4 import BeautifulSoup
-# import urllib3
-
-# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# headers = {"User-Agent": "Mozilla/5.0"}
-# html = requests.get("https://www.simplyrecipes.com/recipes/homemade_pizza/", headers=headers, verify=False)
-# soup = BeautifulSoup(html.text, "html.parser")
-
-# print(parse_recipe_data(soup))

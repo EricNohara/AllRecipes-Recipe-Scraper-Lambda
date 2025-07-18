@@ -10,10 +10,9 @@ async def fetch_recipe(session, link, sitename):
 async def main(dish, max_links, sitename):
     async with aiohttp.ClientSession() as session:
         links = find_recipe_links(dish_name=dish, max_links=max_links, sitename=sitename)
-        # tasks = [fetch_recipe(session, link, sitename) for link in links]
-        # recipes = await asyncio.gather(*tasks)
-        # return recipes
-        return links
+        tasks = [fetch_recipe(session, link, sitename) for link in links]
+        recipes = await asyncio.gather(*tasks)
+        return recipes
 
 def lambda_handler(event, context):
     try:
