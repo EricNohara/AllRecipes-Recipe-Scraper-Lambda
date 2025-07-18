@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
-from services.data_parsers import allrecipes, simplyrecipes
+from services.data_parsers import allrecipes, simplyrecipes, seriouseats
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 PARSERS = {
     "all-recipes": allrecipes.parse_recipe_data,
-    "simply-recipes": simplyrecipes.parse_recipe_data
+    "simply-recipes": simplyrecipes.parse_recipe_data,
+    "serious-eats": seriouseats.parse_recipe_data,
 }
 
 headers = {"User-Agent": "Mozilla/5.0"}
