@@ -1,4 +1,3 @@
-RECIPE_CARD = ".comp.card-list__item.mntl-block"
 RECIPE_LINK = "a.comp.card"
 NEXT_LINK_BUTTON = ".pagination__item-link--next"
 
