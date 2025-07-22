@@ -6,7 +6,7 @@ def parse_links(soup):
 
     for a in soup.select(RECIPE_LINK):
         href = a.get('href', '')
-        if 'recipe' not in href or 'recipes' in href:
+        if href and ('recipe' not in href or 'recipes' in href):
             continue
         links.add(href)
     return list(links)

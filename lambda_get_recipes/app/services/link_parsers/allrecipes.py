@@ -5,7 +5,7 @@ def parse_links(soup):
     links = set()
     for link in soup.select(LINK_CARD):
         href = link.get("href")
-        if href:
+        if href and "/recipe/" in href:
             links.add(href)
     return list(links)
 
