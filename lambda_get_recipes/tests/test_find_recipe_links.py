@@ -9,9 +9,9 @@ class TestFindRecipeLinks(unittest.TestCase):
         html = """
         <html>
         <body>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe1"></a>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe2"></a>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe3"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/1"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/2"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/3"></a>
         </body>
         </html>
         """
@@ -37,7 +37,7 @@ class TestFindRecipeLinks(unittest.TestCase):
     def test_stops_recursing_when_max_links_reached(self, mock_get):
         def generate_html_with_links(n):
             return "<html><body>" + "".join(
-                f'<a class="mntl-card-list-card--extendable" href="https://example.com/recipe{i}"></a>'
+                f'<a class="mntl-card-list-card--extendable" href="https://example.com/recipe/{i}"></a>'
                 for i in range(n)
             ) + '</body></html>'
 
@@ -57,9 +57,9 @@ class TestFindRecipeLinks(unittest.TestCase):
         html = """
         <html>
         <body>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe1"></a>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe1"></a>
-            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe2"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/1"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/1"></a>
+            <a class="mntl-card-list-card--extendable" href="https://example.com/recipe/2"></a>
         </body>
         </html>
         """
@@ -69,8 +69,8 @@ class TestFindRecipeLinks(unittest.TestCase):
 
         links = find_recipe_links("bread", max_links=5)
         self.assertEqual(len(links), 2)
-        self.assertIn("https://example.com/recipe1", links)
-        self.assertIn("https://example.com/recipe2", links)
+        self.assertIn("https://example.com/recipe/1", links)
+        self.assertIn("https://example.com/recipe/2", links)
 
 if __name__ == '__main__':
     unittest.main()
